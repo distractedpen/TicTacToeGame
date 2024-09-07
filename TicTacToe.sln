@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeGame", "TicTacToeGame\TicTacToeGame.csproj", "{F70D7503-3C5F-4988-976A-BFC058AAA1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleRunner", "ConsoleRunner\ConsoleRunner.csproj", "{F74BBD13-883C-4D76-93A3-A5587B985D3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeGameNUnit", "TicTacToeGameNUnit\TicTacToeGameNUnit.csproj", "{48BF28ED-20B8-4FAB-8082-0C7A4B4F428E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleRunnerNUnit", "ConsoleRunnerNUnit\ConsoleRunnerNUnit.csproj", "{7802B26E-8621-49B6-B4C2-7110E523C95D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F70D7503-3C5F-4988-976A-BFC058AAA1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F70D7503-3C5F-4988-976A-BFC058AAA1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F70D7503-3C5F-4988-976A-BFC058AAA1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F70D7503-3C5F-4988-976A-BFC058AAA1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F74BBD13-883C-4D76-93A3-A5587B985D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74BBD13-883C-4D76-93A3-A5587B985D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74BBD13-883C-4D76-93A3-A5587B985D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74BBD13-883C-4D76-93A3-A5587B985D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48BF28ED-20B8-4FAB-8082-0C7A4B4F428E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48BF28ED-20B8-4FAB-8082-0C7A4B4F428E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48BF28ED-20B8-4FAB-8082-0C7A4B4F428E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48BF28ED-20B8-4FAB-8082-0C7A4B4F428E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7802B26E-8621-49B6-B4C2-7110E523C95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7802B26E-8621-49B6-B4C2-7110E523C95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7802B26E-8621-49B6-B4C2-7110E523C95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7802B26E-8621-49B6-B4C2-7110E523C95D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
