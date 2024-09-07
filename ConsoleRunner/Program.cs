@@ -1,54 +1,70 @@
-﻿using TicTacToeGame;
+﻿using System.Text;
+using TicTacToeGame;
 
 namespace ConsoleRunner;
 
-class Program
+public class Program
 {
+    private const string HorizontalSpacer = "-----";
+    private const char Player1Char = 'X';
+    private const char Player2Char = 'O';
+    private const char VerticalSpacer = '|';
+    private const char NewLine = '\n';
+
     /**
      * Console Runner for TicTacToeGame Class Library
      */
+    
     public static void Main(string[] args)
     {
-        var gamePlayed = false;
-        while (true)
+        var endGame = false;
+        while (!endGame)
         {
-            Console.Out.WriteLine("""
-                                  Welcome to TicTacToe.
-                                    2 ) Two Players.
-                                    q ) Quit.               
-                                  Please choose a game mode:
-                                  """
-            );
-            var input = "";
-            input = GetUserInput(["q", "2"]);
-            
-            if (input == "q") break;
-            if (input == "2")
+            var userSelection = RunMainMenu(Console.Out, Console.In);
+            if (userSelection != "q")
             {
-                var gameStatus = RunGame(2);
-                if (gameStatus != 0)
-                {
-                    Console.Out.WriteLine(gameStatus == 1 ? "Player 1 Wins!" : "Player 2 Wins!");
-                }
-                else
-                {
-                    Console.Out.WriteLine("Tie!");
-                }
-                gamePlayed = true;
+                var result = RunGame(Console.Out, Console.In);
+                DisplayResult(Console.Out, result);
+                endGame = ConfirmEndGame(Console.Out, Console.In);
             }
-            else
-            {
-                Console.Out.WriteLine("Invalid Option.");
-            }
-            
-            if (!gamePlayed) continue;
-            
-            Console.Out.WriteLine("Play Again? y/N");
-            input = GetUserInput(["y", "Y"]);
-            if (input == string.Empty) break;
         }
-        
-        Console.Out.WriteLine("Good Bye!");
+    }
+
+    public static bool ConfirmEndGame(TextWriter outWriter, TextReader inReader)
+    {
+        outWriter.WriteLine("Play Again? y/N");
+        var input = GetUserInput(inReader, ["y", "Y"]);
+        return input == string.Empty;
+    }
+
+    public static void DisplayResult(TextWriter outWriter, int results)
+    {
+        if (results == 1)
+            outWriter.WriteLine("Player 1 Wins!");
+        else if (results == -1)
+            outWriter.WriteLine("Player 2 Wins!");
+        else
+            outWriter.WriteLine("Tie!");
+    }
+
+    public static string RunMainMenu(TextWriter outWriter, TextReader inReader)
+    {
+        var validInputs = new[] { "q", "2" };
+        outWriter.WriteLine("""
+                              Welcome to TicTacToe.
+                                2 ) Two Players.
+                                q ) Quit.               
+                              Please choose a game mode:
+                              """
+        );
+        var input = "";
+        while (input == string.Empty)
+        {
+            input = GetUserInput(inReader, validInputs);
+            if (input == string.Empty)
+                outWriter.WriteLine("Invalid Option.");
+        }
+        return input;
     }
 
     /**
@@ -56,9 +72,9 @@ class Program
      * :params validInputs string array of valid options
      * :returns input string.Empty if no valid option selected, else valid option
      */
-    private static string GetUserInput(string[] validInputs)
+    public static string GetUserInput(TextReader inReader, string[] validInputs)
     {
-        var input = Console.In.ReadLine();
+        var input = inReader.ReadLine();
         foreach (var t in validInputs)
         {
             if (input == t)
@@ -74,7 +90,7 @@ class Program
      * :param gameMode 1=One Player, 2=Two Player
      * :returns -1=Player 2 wins, 0=Tie, 1=Player 1 wins, -2=Game Quit
      */
-    private static int RunGame(int gameMode)
+    public static int RunGame(TextWriter outWriter, TextReader inReader)
     {
         var game = new Game();
         string? errorMessage = null;
@@ -82,15 +98,16 @@ class Program
         while (game.GetTurnsRemaining() > 0)
         {
             // show board state
-            PrintBoard(board, errorMessage);
+            outWriter.Flush();
+            outWriter.Write(PrintBoard(board, errorMessage));
             errorMessage = null; // clear errorMessage once board has been printed
             var input = "";
             while (input == string.Empty)
             {
-                Console.Out.WriteLine();
-                Console.Out.WriteLine(game.GetPlayer() == 1 ? "Player 1 Turn" : "Player 2 Turn");
-                Console.Out.WriteLine("Chose a position ('q' to quit): ");
-                input = GetUserInput(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "q"]);
+                outWriter.WriteLine();
+                outWriter.WriteLine(game.GetPlayer() == 1 ? "Player 1 Turn" : "Player 2 Turn");
+                outWriter.WriteLine("Chose a position ('q' to quit): ");
+                input = GetUserInput(inReader, ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "q"]);
                 
                 if (input == "q") return -2;
 
@@ -106,8 +123,9 @@ class Program
             if (winner != 0) return winner;
         }
         
+        outWriter.Flush();
+        outWriter.Write(PrintBoard(board));
         // technically this will always be zero if we reach this?
-        PrintBoard(board);
         return game.DetermineWinner();
     }
 
@@ -116,11 +134,11 @@ class Program
      * Print the Tic Tac Toe Board
      * :params board integer array representing the game board
      */
-    private static void PrintBoard(int[] board, string? errorMessage = null)
+    public static string PrintBoard(int[] board, string? errorMessage = null)
     {
-        Console.Clear();
-        if (errorMessage != null) Console.Out.WriteLine(errorMessage);
-        Console.Out.WriteLine("-----");
+        var sb = new StringBuilder();
+        if (errorMessage != null) sb.Append(errorMessage + NewLine);
+        sb.Append(HorizontalSpacer + NewLine);
         for (var row = 0; row < 3; row++)
         {
             for (var col = 0; col < 3; col++)
@@ -130,18 +148,22 @@ class Program
                 switch (value)
                 {
                     case 1:
-                        Console.Out.Write(col == 2 ? "X" : "X|");
+                        sb.Append(Player1Char);
                         break;
                     case -1:
-                        Console.Out.Write(col == 2 ? "O" : "O|");
+                        sb.Append(Player2Char);
                         break;
                     default:
-                        Console.Out.Write(col == 2 ? $"{index}" : $"{index}|");
+                        sb.Append(index);
                         break;
                 }
+                if (col < 2)
+                    sb.Append(VerticalSpacer);
             }
-            Console.Out.Write("\n");
-            Console.Out.WriteLine("-----");
+            sb.Append(NewLine);
         }
+        sb.Append(HorizontalSpacer + NewLine);
+
+        return sb.ToString();
     }
 }
